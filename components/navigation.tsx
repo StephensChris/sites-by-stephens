@@ -40,6 +40,12 @@ export function Navigation() {
             Work
           </button>
           <button
+            onClick={() => scrollToSection("pricing")}
+            className="text-white hover:text-slate-300 transition-colors"
+          >
+            Pricing
+          </button>
+          <button
             onClick={() => scrollToSection("contact")}
             className="text-white hover:text-slate-300 transition-colors"
           >

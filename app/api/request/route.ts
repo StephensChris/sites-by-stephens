@@ -97,8 +97,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Send email using Resend
-    const resend = new Resend(process.env.RESEND_API_KEY)
-    
     if (!process.env.RESEND_API_KEY) {
       console.error("RESEND_API_KEY is not set in environment variables")
       return NextResponse.json(
@@ -107,26 +105,46 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const resend = new Resend(process.env.RESEND_API_KEY)
+
+    // Escape HTML to prevent XSS
+    const escapeHtml = (text: string) => {
+      const map: { [key: string]: string } = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;',
+      }
+      return text.replace(/[&<>"']/g, (m) => map[m])
+    }
+
+    const safeName = escapeHtml(name)
+    const safeEmail = escapeHtml(email)
+    const safeTier = escapeHtml(tier)
+    const safePrice = escapeHtml(price)
+    const safeMessage = message ? escapeHtml(message).replace(/\n/g, '<br>') : ''
+
     try {
-      await resend.emails.send({
-        from: 'onboarding@resend.dev', // Change this to your verified domain in Resend
-        to: 'contact@sitesbystephens.com',
-        replyTo: email,
-        subject: `New ${tier} Package Request from ${name}`,
+      const emailResult = await resend.emails.send({
+        from: 'noreply@sitesbystephens.com', // Using your verified domain - change if you verified a different address
+        to: 'contact@sitesbystephens.com', // Your Zoho email address
+        replyTo: email, // So you can reply directly to the client
+        subject: `New ${safeTier} Package Request from ${safeName}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #1e293b; border-bottom: 2px solid #3b82f6; padding-bottom: 10px;">
               New Website Request
             </h2>
             <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <p style="margin: 10px 0;"><strong>Name:</strong> ${name}</p>
-              <p style="margin: 10px 0;"><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-              <p style="margin: 10px 0;"><strong>Package:</strong> ${tier} (${price})</p>
-              ${message ? `<p style="margin: 10px 0;"><strong>Message:</strong></p><p style="background: white; padding: 15px; border-radius: 4px; white-space: pre-wrap;">${message.replace(/\n/g, '<br>')}</p>` : ''}
+              <p style="margin: 10px 0;"><strong>Name:</strong> ${safeName}</p>
+              <p style="margin: 10px 0;"><strong>Email:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a></p>
+              <p style="margin: 10px 0;"><strong>Package:</strong> ${safeTier} (${safePrice})</p>
+              ${safeMessage ? `<p style="margin: 10px 0;"><strong>Message:</strong></p><p style="background: white; padding: 15px; border-radius: 4px; white-space: pre-wrap;">${safeMessage}</p>` : '<p style="margin: 10px 0; color: #64748b; font-style: italic;">(No message provided)</p>'}
               <p style="margin: 10px 0; color: #64748b; font-size: 14px;"><strong>Requested:</strong> ${new Date().toLocaleString()}</p>
             </div>
             <p style="color: #64748b; font-size: 14px; margin-top: 20px;">
-              Reply directly to this email to respond to ${name}.
+              Reply directly to this email to respond to ${safeName}.
             </p>
           </div>
         `,
@@ -136,15 +154,17 @@ New Website Request
 Name: ${name}
 Email: ${email}
 Package: ${tier} (${price})
-${message ? `\nMessage:\n${message}\n` : ''}
+${message ? `\nMessage:\n${message}\n` : '\n(No message provided)\n'}
 Requested: ${new Date().toLocaleString()}
 
 Reply to: ${email}
         `.trim(),
       })
 
+      console.log("Email sent successfully:", emailResult)
+
       console.log("Email sent successfully for request from:", email)
-    } catch (emailError) {
+    } catch (emailError: any) {
       console.error("Error sending email:", emailError)
       // Still log the request even if email fails
       console.log("New website request (email failed):", {
