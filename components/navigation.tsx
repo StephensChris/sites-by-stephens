@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { useContactQR } from "@/components/contact-qr-popup"
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const { open: openContactQR } = useContactQR()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,7 +48,7 @@ export function Navigation() {
             Pricing
           </button>
           <button
-            onClick={() => scrollToSection("contact")}
+            onClick={openContactQR}
             className="text-white hover:text-slate-300 transition-colors"
           >
             Contact

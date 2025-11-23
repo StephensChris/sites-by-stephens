@@ -11,24 +11,11 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Sites by Stephens - Modern Websites for Small Businesses",
   description:
-    "Beautiful, fast, mobile-friendly websites for small businesses. From $149-$299 with 48-hour delivery. Get your free preview today!",
+    "Beautiful, fast, mobile-friendly websites for small businesses. From $99-$299 with 48-hour delivery. Get your free preview today!",
   generator: "v0.app",
   icons: {
-    icon: [
-      {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
-    apple: "/apple-icon.png",
+    icon: "/letter-s.png",
+    apple: "/letter-s.png",
   },
 }
 

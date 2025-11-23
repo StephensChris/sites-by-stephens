@@ -3,17 +3,15 @@ import { Button } from "@/components/ui/button"
 import { Navigation } from "@/components/navigation"
 import { WorkSection } from "@/components/work-section"
 import { PricingSection } from "@/components/pricing-section"
-import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
+import { ContactQRProvider, useContactQR } from "@/components/contact-qr-popup"
 import { motion } from "framer-motion"
 
-export default function Home() {
+function HomeContent() {
+  const { open: openContactQR } = useContactQR()
+
   const scrollToWork = () => {
     document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })
-  }
-
-  const scrollToContact = () => {
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
   }
 
   return (
@@ -51,7 +49,7 @@ export default function Home() {
                 size="lg"
                 variant="outline"
                 className="text-lg px-8 py-6 bg-transparent text-white border-white hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.6)]"
-                onClick={scrollToContact}
+                onClick={openContactQR}
               >
                 Contact Me
               </Button>
@@ -62,8 +60,15 @@ export default function Home() {
 
       <WorkSection />
       <PricingSection />
-      <ContactSection />
       <Footer />
     </div>
+  )
+}
+
+export default function Home() {
+  return (
+    <ContactQRProvider>
+      <HomeContent />
+    </ContactQRProvider>
   )
 }
