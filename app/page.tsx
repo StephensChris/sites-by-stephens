@@ -26,7 +26,7 @@ export default function Home() {
         <div 
           className="absolute inset-0" 
           style={{
-            background: 'radial-gradient(circle at center, rgb(15 23 42) 0%, rgb(30 41 59) 50%, rgb(0 0 0) 100%)'
+            background: 'radial-gradient(circle at center, rgb(15 23 42) 0%, rgb(30 41 59) 30%, rgb(0 0 0) 60%)'
           }}
         />
 
