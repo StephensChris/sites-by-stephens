@@ -13,9 +13,7 @@ const tiers = [
     price: "$149",
     description: "Perfect for simple businesses",
     features: [
-      "1-2 pages",
-      "Mobile-responsive design",
-      "Contact form",
+      "1 page",
       "Basic SEO",
       "48-hour delivery",
     ],
@@ -25,7 +23,7 @@ const tiers = [
     price: "$249",
     description: "Most popular choice",
     features: [
-      "3-5 pages",
+      "Up to 3 pages",
       "Everything in Basic",
       "Advanced SEO",
       "Image gallery",
@@ -39,22 +37,19 @@ const tiers = [
     price: "$299",
     description: "For growing businesses",
     features: [
-      "Up to 8 pages",
+      "Up to 9 pages",
       "Everything in Standard",
       "Custom features",
-      "E-commerce ready",
-      "Analytics setup",
-      "Priority support",
     ],
   },
 ]
 
 export function PricingSection() {
-  const [selectedTier, setSelectedTier] = useState<{ name: string; price: string } | null>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [selectedTier, setSelectedTier] = useState<string | null>(null)
 
-  const handleSelectTier = (tierName: string, tierPrice: string) => {
-    setSelectedTier({ name: tierName, price: tierPrice })
+  const handleGetStarted = (tierName: string) => {
+    setSelectedTier(tierName)
     setDialogOpen(true)
   }
 
@@ -110,11 +105,11 @@ export function PricingSection() {
                 </ul>
 
                 <Button
-                  onClick={() => handleSelectTier(tier.name, tier.price)}
+                  onClick={() => handleGetStarted(tier.name)}
                   className={`w-full ${tier.popular ? "bg-blue-600 hover:bg-blue-700 text-white" : ""}`}
                   variant={tier.popular ? "default" : "outline"}
                 >
-                  Request {tier.name}
+                  Get Started
                 </Button>
               </Card>
             </motion.div>
@@ -122,14 +117,11 @@ export function PricingSection() {
         </div>
       </div>
 
-      {selectedTier && (
-        <RequestFormDialog
-          open={dialogOpen}
-          onOpenChange={setDialogOpen}
-          selectedTier={selectedTier.name}
-          tierPrice={selectedTier.price}
-        />
-      )}
+      <RequestFormDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        selectedTier={selectedTier}
+      />
     </section>
   )
 }

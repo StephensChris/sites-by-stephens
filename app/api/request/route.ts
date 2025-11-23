@@ -66,10 +66,10 @@ function getClientIP(request: NextRequest): string {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, email, message, tier, price } = body
+    const { name, email, message, pages, seoLevel, deliveryTime, theme, supportLevel, features, customFeaturesText, estimatedPrice } = body
 
     // Validation
-    if (!name || !email || !tier || !price) {
+    if (!name || !email || !pages || !seoLevel || !deliveryTime || !theme || !supportLevel) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -121,27 +121,61 @@ export async function POST(request: NextRequest) {
 
     const safeName = escapeHtml(name)
     const safeEmail = escapeHtml(email)
-    const safeTier = escapeHtml(tier)
-    const safePrice = escapeHtml(price)
+    const safePages = escapeHtml(pages)
+    const safeSeoLevel = escapeHtml(seoLevel)
+    const safeDeliveryTime = escapeHtml(deliveryTime)
+    const safeTheme = escapeHtml(theme)
+    const safeSupportLevel = escapeHtml(supportLevel)
     const safeMessage = message ? escapeHtml(message).replace(/\n/g, '<br>') : ''
+    const safeCustomFeaturesText = customFeaturesText ? escapeHtml(customFeaturesText).replace(/\n/g, '<br>') : ''
+    const safeEstimatedPrice = estimatedPrice ? `$${estimatedPrice}` : 'Not calculated'
+    
+    // Format selected features
+    const selectedFeatures = features ? Object.entries(features)
+      .filter(([_, selected]) => selected)
+      .map(([key, _]) => {
+        // Convert camelCase to readable format
+        return key
+          .replace(/([A-Z])/g, ' $1')
+          .replace(/^./, str => str.toUpperCase())
+          .trim()
+      }) : []
 
     try {
+      const featuresList = selectedFeatures.length > 0 
+        ? `<ul style="margin: 10px 0; padding-left: 20px;">${selectedFeatures.map(f => `<li>${escapeHtml(f)}</li>`).join('')}</ul>`
+        : '<p style="margin: 10px 0; color: #64748b; font-style: italic;">(No additional features selected)</p>'
+
       const emailResult = await resend.emails.send({
         from: 'noreply@sitesbystephens.com', // Using your verified domain - change if you verified a different address
         to: 'contact@sitesbystephens.com', // Your Zoho email address
         replyTo: email, // So you can reply directly to the client
-        subject: `New ${safeTier} Package Request from ${safeName}`,
+        subject: `New Website Request from ${safeName}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #1e293b; border-bottom: 2px solid #3b82f6; padding-bottom: 10px;">
               New Website Request
             </h2>
             <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="color: #1e293b; margin-bottom: 15px; font-size: 18px;">Contact Information</h3>
               <p style="margin: 10px 0;"><strong>Name:</strong> ${safeName}</p>
               <p style="margin: 10px 0;"><strong>Email:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a></p>
-              <p style="margin: 10px 0;"><strong>Package:</strong> ${safeTier} (${safePrice})</p>
-              ${safeMessage ? `<p style="margin: 10px 0;"><strong>Message:</strong></p><p style="background: white; padding: 15px; border-radius: 4px; white-space: pre-wrap;">${safeMessage}</p>` : '<p style="margin: 10px 0; color: #64748b; font-style: italic;">(No message provided)</p>'}
-              <p style="margin: 10px 0; color: #64748b; font-size: 14px;"><strong>Requested:</strong> ${new Date().toLocaleString()}</p>
+              
+              <h3 style="color: #1e293b; margin-top: 20px; margin-bottom: 15px; font-size: 18px;">Website Configuration</h3>
+              <p style="margin: 10px 0;"><strong>Pages:</strong> ${safePages}</p>
+              <p style="margin: 10px 0;"><strong>Theme:</strong> ${safeTheme}</p>
+              <p style="margin: 10px 0;"><strong>SEO Level:</strong> ${safeSeoLevel}</p>
+              <p style="margin: 10px 0;"><strong>Support Level:</strong> ${safeSupportLevel}</p>
+              <p style="margin: 10px 0;"><strong>Delivery Time:</strong> ${safeDeliveryTime}</p>
+              <p style="margin: 10px 0;"><strong>Estimated Price:</strong> ${safeEstimatedPrice}</p>
+              
+              <h3 style="color: #1e293b; margin-top: 20px; margin-bottom: 15px; font-size: 18px;">Selected Features</h3>
+              ${featuresList}
+              ${safeCustomFeaturesText ? `<h4 style="color: #1e293b; margin-top: 15px; margin-bottom: 10px; font-size: 16px;">Custom Features Details:</h4><p style="background: white; padding: 15px; border-radius: 4px; white-space: pre-wrap; margin: 10px 0;">${safeCustomFeaturesText}</p>` : ''}
+              
+              ${safeMessage ? `<h3 style="color: #1e293b; margin-top: 20px; margin-bottom: 15px; font-size: 18px;">Additional Details</h3><p style="background: white; padding: 15px; border-radius: 4px; white-space: pre-wrap; margin: 10px 0;">${safeMessage}</p>` : ''}
+              
+              <p style="margin: 20px 0 10px 0; color: #64748b; font-size: 14px;"><strong>Requested:</strong> ${new Date().toLocaleString()}</p>
             </div>
             <p style="color: #64748b; font-size: 14px; margin-top: 20px;">
               Reply directly to this email to respond to ${safeName}.
@@ -151,10 +185,24 @@ export async function POST(request: NextRequest) {
         text: `
 New Website Request
 
+Contact Information
 Name: ${name}
 Email: ${email}
-Package: ${tier} (${price})
-${message ? `\nMessage:\n${message}\n` : '\n(No message provided)\n'}
+
+Website Configuration
+Pages: ${pages}
+Theme: ${theme}
+SEO Level: ${seoLevel}
+Support Level: ${supportLevel}
+Delivery Time: ${deliveryTime}
+Estimated Price: ${estimatedPrice ? `$${estimatedPrice}` : 'Not calculated'}
+
+Selected Features
+${selectedFeatures.length > 0 ? selectedFeatures.map(f => `- ${f}`).join('\n') : '(No additional features selected)'}
+${customFeaturesText ? `\nCustom Features Details:\n${customFeaturesText}\n` : ''}
+
+${message ? `\nAdditional Details:\n${message}\n` : ''}
+
 Requested: ${new Date().toLocaleString()}
 
 Reply to: ${email}
@@ -171,8 +219,14 @@ Reply to: ${email}
         name,
         email,
         message: message || "(no message)",
-        tier,
-        price,
+        pages,
+        theme,
+        seoLevel,
+        supportLevel,
+        deliveryTime,
+        features,
+        customFeaturesText,
+        estimatedPrice,
         timestamp: new Date().toISOString(),
       })
       
