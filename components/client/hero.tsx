@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 
@@ -21,6 +21,24 @@ interface HeroProps {
 
 export function ClientHero({ data }: HeroProps) {
   const [showYay, setShowYay] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  // Ensure elements become visible even if animations don't work
+  useEffect(() => {
+    setIsMounted(true)
+    // Fallback: make elements visible after animation should have completed
+    const timer = setTimeout(() => {
+      const animatedElements = document.querySelectorAll('[data-animated]')
+      animatedElements.forEach((el) => {
+        const computedStyle = window.getComputedStyle(el)
+        if (computedStyle.opacity === '0' || parseFloat(computedStyle.opacity) < 0.1) {
+          el.classList.add('force-visible')
+        }
+      })
+    }, 2000) // After all animations should have completed (max delay is ~1.2s, so 2s is safe)
+    
+    return () => clearTimeout(timer)
+  }, [])
 
   const placeOrderButton = data.buttons.find((btn) => btn.text === "Place an Order")
 
@@ -37,13 +55,25 @@ export function ClientHero({ data }: HeroProps) {
       </div>
 
       <div className="container relative z-10 px-4 sm:px-6 lg:px-8 py-16 sm:py-24 md:py-32 mx-auto text-center min-h-[80vh] flex flex-col justify-center">
-        <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-balance mb-4 sm:mb-6 text-foreground px-4 opacity-0" style={{ animation: 'fadeInUp 0.7s ease-out 0.1s forwards' }}>
+        <h1 
+          data-animated
+          className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-balance mb-4 sm:mb-6 text-foreground px-4 opacity-0" 
+          style={{ animation: 'fadeInUp 0.7s ease-out 0.1s forwards' }}
+        >
           {data.title}
         </h1>
-        <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-pretty mb-6 sm:mb-8 leading-relaxed px-4 opacity-0" style={{ animation: 'fadeInUp 0.7s ease-out 0.3s forwards' }}>
+        <p 
+          data-animated
+          className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-pretty mb-6 sm:mb-8 leading-relaxed px-4 opacity-0" 
+          style={{ animation: 'fadeInUp 0.7s ease-out 0.3s forwards' }}
+        >
           {data.subtitle}
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 opacity-0" style={{ animation: 'fadeInUp 0.7s ease-out 0.5s forwards' }}>
+        <div 
+          data-animated
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 opacity-0" 
+          style={{ animation: 'fadeInUp 0.7s ease-out 0.5s forwards' }}
+        >
           {data.buttons.map((button, index) => (
             <div key={index} className="relative transition-transform duration-300 hover:scale-105" style={{ overflow: 'visible' }}>
               <Button

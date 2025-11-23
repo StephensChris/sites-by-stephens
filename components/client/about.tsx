@@ -17,7 +17,11 @@ export function ClientAbout({ data }: AboutProps) {
     <section className="py-16 md:py-20 lg:py-24 bg-card min-h-[60vh] flex flex-col justify-center">
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
         <div className="max-w-4xl mx-auto">
-          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-center mb-6 sm:mb-8 text-balance px-4 opacity-0" style={{ animation: 'fadeInUp 0.7s ease-out 0.1s forwards' }}>
+          <h2 
+            data-animated
+            className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-center mb-6 sm:mb-8 text-balance px-4 opacity-0" 
+            style={{ animation: 'fadeInUp 0.7s ease-out 0.1s forwards' }}
+          >
             {data.title}
           </h2>
           {data.paragraphs.map((paragraph, index) => (
@@ -36,6 +40,7 @@ export function ClientAbout({ data }: AboutProps) {
           {data.features.map((feature, index) => (
             <div
               key={index}
+              data-animated
               className="text-center p-6 rounded-xl bg-card hover:bg-accent/10 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-lg opacity-0"
               style={{ animation: `fadeInUp 0.7s ease-out ${index * 0.1 + 0.3}s forwards` }}
             >

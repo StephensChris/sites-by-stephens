@@ -30,10 +30,18 @@ export function ClientGallery({ data }: GalleryProps) {
     <>
       <section id="gallery" className="py-16 md:py-20 lg:py-24 bg-background min-h-[60vh] flex flex-col justify-center">
         <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
-          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-center mb-4 text-balance px-4 opacity-0" style={{ animation: 'fadeInUp 0.7s ease-out 0.1s forwards' }}>
+          <h2 
+            data-animated
+            className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-center mb-4 text-balance px-4 opacity-0" 
+            style={{ animation: 'fadeInUp 0.7s ease-out 0.1s forwards' }}
+          >
             {data.title}
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground text-center leading-relaxed mb-12 md:mb-16 max-w-2xl mx-auto px-4 opacity-0" style={{ animation: 'fadeInUp 0.7s ease-out 0.3s forwards' }}>
+          <p 
+            data-animated
+            className="text-base sm:text-lg md:text-xl text-muted-foreground text-center leading-relaxed mb-12 md:mb-16 max-w-2xl mx-auto px-4 opacity-0" 
+            style={{ animation: 'fadeInUp 0.7s ease-out 0.3s forwards' }}
+          >
             {data.subtitle}
           </p>
 
@@ -41,6 +49,7 @@ export function ClientGallery({ data }: GalleryProps) {
             {data.items.map((item, index) => (
               <div
                 key={index}
+                data-animated
                 className="group relative overflow-hidden rounded-xl aspect-square bg-card hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-2 hover:scale-[1.02] opacity-0"
                 style={{ animation: `fadeInUp 0.7s ease-out ${index * 0.05 + 0.3}s forwards` }}
                 onClick={() => openLightbox(index)}

@@ -9,6 +9,7 @@ import { ClientContact } from "@/components/client/contact"
 import { ClientFooter } from "@/components/client/footer"
 import { BackToTop } from "@/components/client/back-to-top"
 import { QRButton } from "@/components/client/qr-button"
+import { AnimationFallback } from "@/components/client/animation-fallback"
 
 // Force dynamic rendering - no caching for subdomain routes
 export const dynamic = 'force-dynamic'
@@ -130,6 +131,7 @@ export default async function ClientPage({
   
   return (
     <main className="min-h-screen">
+      <AnimationFallback />
       {clientData.contact?.businessCard && (
         <QRButton data={clientData.contact.businessCard} />
       )}
