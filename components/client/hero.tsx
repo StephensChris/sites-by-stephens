@@ -37,13 +37,13 @@ export function ClientHero({ data }: HeroProps) {
       </div>
 
       <div className="container relative z-10 px-4 sm:px-6 lg:px-8 py-16 sm:py-24 md:py-32 mx-auto text-center min-h-[80vh] flex flex-col justify-center">
-        <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-balance mb-4 sm:mb-6 text-foreground px-4 opacity-0 animate-[fadeInUp_0.7s_ease-out_0.1s_forwards]">
+        <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-balance mb-4 sm:mb-6 text-foreground px-4 opacity-0" style={{ animation: 'fadeInUp 0.7s ease-out 0.1s forwards' }}>
           {data.title}
         </h1>
-        <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-pretty mb-6 sm:mb-8 leading-relaxed px-4 opacity-0 animate-[fadeInUp_0.7s_ease-out_0.3s_forwards]">
+        <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-pretty mb-6 sm:mb-8 leading-relaxed px-4 opacity-0" style={{ animation: 'fadeInUp 0.7s ease-out 0.3s forwards' }}>
           {data.subtitle}
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 opacity-0 animate-[fadeInUp_0.7s_ease-out_0.5s_forwards]">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 opacity-0" style={{ animation: 'fadeInUp 0.7s ease-out 0.5s forwards' }}>
           {data.buttons.map((button, index) => (
             <div key={index} className="relative transition-transform duration-300 hover:scale-105" style={{ overflow: 'visible' }}>
               <Button
@@ -73,8 +73,9 @@ export function ClientHero({ data }: HeroProps) {
               </Button>
               {button.text === "Place an Order" && showYay && (
                 <span 
-                  className="absolute pointer-events-none text-2xl font-bold text-primary animate-[floatUpSway_2.2s_ease-out_forwards] whitespace-nowrap z-50"
+                  className="absolute pointer-events-none text-2xl font-bold text-primary whitespace-nowrap z-50"
                   style={{ 
+                    animation: 'floatUpSway 2.2s ease-out forwards',
                     willChange: 'transform, opacity',
                     left: '50%',
                     top: '0',

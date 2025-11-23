@@ -35,10 +35,10 @@ export function ClientContact({ data }: ContactProps) {
     <section id="contact" className="py-16 md:py-20 lg:py-24 bg-card min-h-[60vh] flex flex-col justify-center">
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 text-balance px-4 opacity-0 animate-[fadeInUp_0.7s_ease-out_0.1s_forwards]">
+          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 text-balance px-4 opacity-0" style={{ animation: 'fadeInUp 0.7s ease-out 0.1s forwards' }}>
             {data.title}
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed mb-8 sm:mb-12 px-4 opacity-0 animate-[fadeInUp_0.7s_ease-out_0.3s_forwards]">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed mb-8 sm:mb-12 px-4 opacity-0" style={{ animation: 'fadeInUp 0.7s ease-out 0.3s forwards' }}>
             {data.subtitle}
           </p>
 

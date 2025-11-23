@@ -181,11 +181,12 @@ export function ImageLightbox({ images, initialIndex, isOpen, onClose }: ImageLi
               {/* Next Image - slides in from opposite side */}
               {nextImage && isAnimating && (
                 <div
-                  className={`absolute inset-0 ${
-                    direction === "left"
-                      ? "animate-[slideInFromRight_0.3s_ease-out_forwards]"
-                      : "animate-[slideInFromLeft_0.3s_ease-out_forwards]"
-                  }`}
+                  className="absolute inset-0"
+                  style={{ 
+                    animation: direction === "left" 
+                      ? 'slideInFromRight 0.3s ease-out forwards' 
+                      : 'slideInFromLeft 0.3s ease-out forwards' 
+                  }}
                 >
                   <Image
                     key={`next-${currentIndex}`}
