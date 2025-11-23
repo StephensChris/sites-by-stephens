@@ -15,11 +15,17 @@ interface HeroData {
   }>
 }
 
-interface HeroProps {
-  data: HeroData
+interface InstagramData {
+  handle: string
+  url: string
 }
 
-export function ClientHero({ data }: HeroProps) {
+interface HeroProps {
+  data: HeroData
+  instagram?: InstagramData
+}
+
+export function ClientHero({ data, instagram }: HeroProps) {
   const [showYay, setShowYay] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
 
@@ -40,10 +46,25 @@ export function ClientHero({ data }: HeroProps) {
     return () => clearTimeout(timer)
   }, [])
 
-  const placeOrderButton = data.buttons.find((btn) => btn.text === "Place an Order")
+  const scrollToSection = (sectionId: string) => {
+    const element = document.querySelector(sectionId)
+    element?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  // Replace "Place an Order" button with Instagram follow button if instagram is provided
+  const processedButtons = data.buttons.map((button) => {
+    if (button.text === "Place an Order" && instagram) {
+      return {
+        ...button,
+        text: "Follow Us!",
+        href: instagram.url,
+      }
+    }
+    return button
+  })
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center" style={{ overflow: 'visible' }}>
+    <section className="relative min-h-screen flex items-center justify-center pb-20" style={{ overflow: 'visible' }}>
       <div className="absolute inset-0 z-0">
         <Image
           src={data.backgroundImage}
@@ -74,26 +95,22 @@ export function ClientHero({ data }: HeroProps) {
           className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 opacity-0" 
           style={{ animation: 'fadeInUp 0.7s ease-out 0.5s forwards' }}
         >
-          {data.buttons.map((button, index) => (
-            <div key={index} className="relative transition-transform duration-300 hover:scale-105" style={{ overflow: 'visible' }}>
+          {processedButtons.map((button, index) => (
+            <div key={index} className="relative transition-transform duration-300 hover:scale-105 w-full sm:w-auto sm:flex-1 sm:max-w-[200px]" style={{ overflow: 'visible' }}>
               <Button
                 size="lg"
                 variant={button.variant}
                 className={
                   button.variant === "outline"
-                    ? "text-base sm:text-lg px-6 sm:px-8 bg-transparent border-2 transition-shadow duration-300"
-                    : "text-base sm:text-lg px-6 sm:px-8 shadow-lg hover:shadow-xl transition-shadow duration-300"
+                    ? "text-base sm:text-lg px-6 sm:px-8 bg-transparent border-2 transition-shadow duration-300 w-full"
+                    : "text-base sm:text-lg px-6 sm:px-8 shadow-lg hover:shadow-xl transition-shadow duration-300 w-full"
                 }
-                onMouseEnter={() => {
-                  if (button.text === "Place an Order") {
-                    setShowYay(true)
-                    setTimeout(() => setShowYay(false), 2200)
-                  }
-                }}
                 onClick={() => {
                   if (button.href?.startsWith("#")) {
                     const element = document.querySelector(button.href)
                     element?.scrollIntoView({ behavior: "smooth" })
+                  } else if (button.href && button.href.startsWith("http")) {
+                    window.open(button.href, "_blank", "noopener,noreferrer")
                   } else if (button.href) {
                     window.location.href = button.href
                   }
@@ -101,22 +118,34 @@ export function ClientHero({ data }: HeroProps) {
               >
                 {button.text}
               </Button>
-              {button.text === "Place an Order" && showYay && (
-                <span 
-                  className="absolute pointer-events-none text-2xl font-bold text-primary whitespace-nowrap z-50"
-                  style={{ 
-                    animation: 'floatUpSway 2.2s ease-out forwards',
-                    willChange: 'transform, opacity',
-                    left: '50%',
-                    top: '0',
-                    transform: 'translateX(-50%) translateY(-100%)',
-                  }}
-                >
-                  yay!
-                </span>
-              )}
             </div>
           ))}
+        </div>
+      </div>
+      
+      {/* Bouncing arrow to scroll to About section */}
+      <div 
+        data-animated
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 cursor-pointer z-20"
+        style={{ animation: 'fadeInUp 0.7s ease-out 0.7s forwards' }}
+        onClick={() => scrollToSection("#about")}
+      >
+        <div className="flex flex-col items-center gap-2 animate-bounce">
+          <span className="text-sm font-medium text-foreground">About Us</span>
+          <svg
+            className="w-6 h-6 text-foreground"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
         </div>
       </div>
     </section>

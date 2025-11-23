@@ -68,9 +68,9 @@ const tierDefaults: Record<string, {
 // Pricing structure
 const pricing = {
   pages: {
-    "1 page": 100,
-    "Up to 3 pages": 150,
-    "Up to 9 pages": 200,
+    "1 page": 99,
+    "Up to 3 pages": 249,
+    "Up to 9 pages": 299,
   },
   seo: {
     basic: 0,
@@ -131,22 +131,41 @@ export function RequestFormDialog({
 
   // Calculate estimated price
   const estimatedPrice = useMemo(() => {
-    let total = pricing.pages[pages as keyof typeof pricing.pages] || 0
-    total += pricing.seo[seoLevel as keyof typeof pricing.seo] || 0
+    // Start with tier base price if a tier is selected
+    let total = 0
+    if (selectedTier === "Basic") {
+      total = 99
+    } else if (selectedTier === "Standard") {
+      total = 249
+    } else if (selectedTier === "Premium") {
+      total = 299
+    } else {
+      // If no tier selected, calculate from scratch
+      total = pricing.pages[pages as keyof typeof pricing.pages] || 0
+      total += pricing.seo[seoLevel as keyof typeof pricing.seo] || 0
+    }
+    
+    // Add delivery, theme, and support costs (these are always add-ons)
     total += pricing.delivery[deliveryTime as keyof typeof pricing.delivery] || 0
     total += pricing.theme[theme as keyof typeof pricing.theme] || 0
     total += pricing.support[supportLevel as keyof typeof pricing.support] || 0
 
-    // Add feature costs
-    Object.entries(features).forEach(([key, selected]) => {
-      if (selected) {
-        const featurePrice = pricing.features[key as keyof typeof pricing.features] || 0
-        total += featurePrice
-      }
-    })
+    // Add feature costs only if they're not included in the tier
+    if (selectedTier !== "Standard" && selectedTier !== "Premium") {
+      // Basic tier doesn't include these features, so add their cost
+      if (features.imageGallery) total += pricing.features.imageGallery
+      if (features.socialMedia) total += pricing.features.socialMedia
+      if (features.blog) total += pricing.features.blog
+    }
+    if (selectedTier !== "Premium") {
+      // Only Premium includes custom features
+      if (features.customFeatures) total += pricing.features.customFeatures
+    }
+    // Dark mode is always an add-on
+    if (features.darkMode) total += pricing.features.darkMode
 
     return total
-  }, [pages, seoLevel, deliveryTime, theme, supportLevel, features])
+  }, [pages, seoLevel, deliveryTime, theme, supportLevel, features, selectedTier])
 
   // Pre-populate form based on selected tier
   useEffect(() => {

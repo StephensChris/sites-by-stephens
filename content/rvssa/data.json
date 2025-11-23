@@ -1,0 +1,134 @@
+{
+  "metadata": {
+    "title": "Rogue Valley Shooting Sports Association | Jackson County Sports Park",
+    "description": "Managing the Jackson County Sports Park Shooting Complex. Open daily from 8:00 AM until approximately 30 to 45 minutes before sunset.",
+    "subdomain": "rvssa"
+  },
+  "fonts": {
+    "heading": "Inter",
+    "body": "Inter"
+  },
+  "colors": {
+    "background": "oklch(0.99 0.01 220)",
+    "foreground": "oklch(0.15 0.02 220)",
+    "card": "oklch(1 0 0)",
+    "cardForeground": "oklch(0.15 0.02 220)",
+    "popover": "oklch(1 0 0)",
+    "popoverForeground": "oklch(0.15 0.02 220)",
+    "primary": "oklch(0.35 0.15 250)",
+    "primaryForeground": "oklch(0.99 0.01 220)",
+    "secondary": "oklch(0.95 0.02 220)",
+    "secondaryForeground": "oklch(0.30 0.02 220)",
+    "muted": "oklch(0.96 0.02 220)",
+    "mutedForeground": "oklch(0.50 0.02 220)",
+    "accent": "oklch(0.60 0.20 250)",
+    "accentForeground": "oklch(0.99 0.01 220)",
+    "destructive": "oklch(0.577 0.245 27.325)",
+    "destructiveForeground": "oklch(0.99 0.01 220)",
+    "border": "oklch(0.92 0.02 220)",
+    "input": "oklch(0.92 0.02 220)",
+    "ring": "oklch(0.35 0.15 250)"
+  },
+  "hero": {
+    "title": "Rogue Valley Shooting Sports Association",
+    "subtitle": "Managing the Jackson County Sports Park Shooting Complex",
+    "backgroundImage": "/clients/rvssa/images/usa-flag-background.jpg",
+    "buttons": [
+      {
+        "text": "View Our Ranges",
+        "variant": "default",
+        "href": "#gallery"
+      },
+      {
+        "text": "Membership Information",
+        "variant": "outline",
+        "href": "#contact"
+      }
+    ]
+  },
+  "about": {
+    "title": "Welcome to RVSSA",
+    "paragraphs": [
+      "The Rogue Valley Shooting Sports Association manages the Jackson County Sports Park Shooting Complex, providing a safe and welcoming environment for shooting sports enthusiasts of all skill levels.",
+      "Open Daily, from 8:00 AM until approximately 30 to 45 minutes before sunset. A range officer will be present during all hours of operation."
+    ],
+    "features": [
+      {
+        "icon": "🛡️",
+        "title": "Safety First",
+        "description": "Safety is our top priority. All visitors must follow our range safety rules to ensure a safe environment for everyone."
+      },
+      {
+        "icon": "🎯",
+        "title": "Range Facilities",
+        "description": "We offer multiple shooting ranges including rifle, pistol, and archery facilities for shooters of all skill levels."
+      },
+      {
+        "icon": "💰",
+        "title": "Fees & Membership",
+        "description": "Daily gate entry fee of $5.00 per shooter. Yearly passes available for individuals ($45) and families ($60)."
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Our Shooting Ranges",
+    "subtitle": "Explore our facilities designed for various shooting disciplines",
+    "items": [
+      {
+        "title": "Rifle Ranges",
+        "image": "/clients/rvssa/images/rifle-range.jpg"
+      },
+      {
+        "title": "Pistol Ranges",
+        "image": "/clients/rvssa/images/pistol-range.jpg"
+      },
+      {
+        "title": "Archery Range",
+        "image": "/clients/rvssa/images/archery-range.jpg"
+      },
+      {
+        "title": "Historic Camp White Rifle Range",
+        "image": "/clients/rvssa/images/camp-white-range.jpg"
+      },
+      {
+        "title": "High Power Rifle Range",
+        "image": "/clients/rvssa/images/high-power-range.jpg"
+      },
+      {
+        "title": "Range Facilities",
+        "image": "/clients/rvssa/images/range-facilities.jpg"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Visit Us Today",
+    "subtitle": "Located at the Jackson County Sports Park in White City, Oregon",
+    "phone": "541-262-0043",
+    "email": "info@rvssa.org",
+    "address": "Jackson County Sports Park, White City, OR",
+    "hours": "Daily, from 8:00 AM until approximately 30 to 45 minutes before sunset",
+    "additionalInfo": "If you are at the range and have a problem, you can call the front gate for assistance.",
+    "businessCard": {
+      "name": "Rogue Valley Shooting Sports Association",
+      "organization": "RVSSA",
+      "phone": "541-262-0043",
+      "email": "info@rvssa.org",
+      "website": "https://rvssa.sitesbystephens.com",
+      "address": "Jackson County Sports Park, White City, OR"
+    }
+  },
+  "footer": {
+    "text": "© 2025 Rogue Valley Shooting Sports Association. All rights reserved.",
+    "links": [
+      {
+        "text": "Privacy",
+        "href": "/privacy"
+      },
+      {
+        "text": "Terms",
+        "href": "/terms"
+      }
+    ]
+  }
+}
+

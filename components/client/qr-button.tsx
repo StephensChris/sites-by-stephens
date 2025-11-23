@@ -98,38 +98,42 @@ export function QRButton({ data }: QRButtonProps) {
 
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-200 p-4"
           onClick={() => setIsOpen(false)}
         >
           <Card
-            className="w-full max-w-md mx-4 border-2"
+            className="w-full max-w-sm border-2 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <CardContent className="p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="font-serif text-2xl font-bold">Save Our Contact</h3>
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h3 className="font-serif text-2xl font-bold mb-1">Save Our Contact</h3>
+                  <p className="text-muted-foreground text-xs">
+                    Scan with your phone camera
+                  </p>
+                </div>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsOpen(false)}
-                  className="h-8 w-8"
+                  className="h-8 w-8 rounded-full hover:bg-muted"
                 >
                   <X className="h-4 w-4" />
                 </Button>
               </div>
-              <p className="text-muted-foreground mb-6 text-sm">
-                Scan this QR code with your phone to automatically save our contact information
-              </p>
-              <div className="flex flex-col items-center gap-4">
-                <div ref={qrRef} className="bg-white p-4 rounded-lg">
+              
+              <div className="flex flex-col items-center gap-6">
+                <div ref={qrRef} className="bg-white p-4 rounded-lg shadow-md border border-border">
                   <QRCodeSVG
                     value={qrValue}
-                    size={200}
+                    size={180}
                     level="H"
                     includeMargin={true}
                   />
                 </div>
-                <Button onClick={downloadQR} variant="outline" className="w-full">
+                
+                <Button onClick={downloadQR} variant="outline" className="w-full" size="sm">
                   <Download className="w-4 h-4 mr-2" />
                   Download QR Code
                 </Button>

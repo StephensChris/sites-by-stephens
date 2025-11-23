@@ -129,16 +129,22 @@ export default async function ClientPage({
   
   console.log(`[ClientPage] Successfully loaded client data for: ${subdomain}`)
   
+  // Hide contact section for sweetsbysami (QR code is primary contact method)
+  const showContactSection = subdomain !== "sweetsbysami"
+
   return (
     <main className="min-h-screen">
       <AnimationFallback />
       {clientData.contact?.businessCard && (
         <QRButton data={clientData.contact.businessCard} />
       )}
-      <ClientHero data={clientData.hero} />
+      <ClientHero 
+        data={clientData.hero} 
+        instagram={subdomain === "sweetsbysami" ? clientData.contact?.instagram : undefined}
+      />
       <ClientAbout data={clientData.about} />
       <ClientGallery data={clientData.gallery} />
-      <ClientContact data={clientData.contact} />
+      {showContactSection && <ClientContact data={clientData.contact} />}
       <ClientFooter data={clientData.footer} />
       <BackToTop />
     </main>

@@ -1,3 +1,5 @@
+"use client"
+
 interface AboutData {
   title: string
   paragraphs: string[]
@@ -13,8 +15,13 @@ interface AboutProps {
 }
 
 export function ClientAbout({ data }: AboutProps) {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.querySelector(sectionId)
+    element?.scrollIntoView({ behavior: "smooth" })
+  }
+
   return (
-    <section className="py-16 md:py-20 lg:py-24 bg-card min-h-[60vh] flex flex-col justify-center">
+    <section id="about" className="relative min-h-screen flex items-center justify-center bg-card pb-20">
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
         <div className="max-w-4xl mx-auto">
           <h2 
@@ -51,6 +58,32 @@ export function ClientAbout({ data }: AboutProps) {
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{feature.description}</p>
             </div>
           ))}
+        </div>
+      </div>
+      
+      {/* Bouncing arrow to scroll to Gallery section */}
+      <div 
+        data-animated
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 cursor-pointer z-20"
+        style={{ animation: 'fadeInUp 0.7s ease-out 0.7s forwards' }}
+        onClick={() => scrollToSection("#gallery")}
+      >
+        <div className="flex flex-col items-center gap-2 animate-bounce">
+          <span className="text-sm font-medium text-foreground">Gallery</span>
+          <svg
+            className="w-6 h-6 text-foreground"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
         </div>
       </div>
     </section>

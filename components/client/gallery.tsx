@@ -28,8 +28,8 @@ export function ClientGallery({ data }: GalleryProps) {
 
   return (
     <>
-      <section id="gallery" className="py-16 md:py-20 lg:py-24 bg-background min-h-[60vh] flex flex-col justify-center">
-        <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
+      <section id="gallery" className="relative min-h-screen flex flex-col justify-center bg-background pt-16 md:pt-20 lg:pt-24 pb-20">
+        <div className="container px-4 sm:px-6 lg:px-8 mx-auto w-full">
           <h2 
             data-animated
             className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-center mb-4 text-balance px-4 opacity-0" 

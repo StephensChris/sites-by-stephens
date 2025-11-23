@@ -2,56 +2,11 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Check } from "lucide-react"
-import { RequestFormDialog } from "@/components/request-form-dialog"
-
-const tiers = [
-  {
-    name: "Basic",
-    price: "$149",
-    description: "Perfect for simple businesses",
-    features: [
-      "1 page",
-      "Basic SEO",
-      "48-hour delivery",
-    ],
-  },
-  {
-    name: "Standard",
-    price: "$249",
-    description: "Most popular choice",
-    features: [
-      "Up to 3 pages",
-      "Everything in Basic",
-      "Advanced SEO",
-      "Image gallery",
-      "Social media integration",
-      "Blog setup",
-    ],
-    popular: true,
-  },
-  {
-    name: "Premium",
-    price: "$299",
-    description: "For growing businesses",
-    features: [
-      "Up to 9 pages",
-      "Everything in Standard",
-      "Custom features",
-    ],
-  },
-]
+import { PricingRequestModal } from "@/components/pricing-request-modal"
 
 export function PricingSection() {
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [selectedTier, setSelectedTier] = useState<string | null>(null)
-
-  const handleGetStarted = (tierName: string) => {
-    setSelectedTier(tierName)
-    setDialogOpen(true)
-  }
+  const [modalOpen, setModalOpen] = useState(false)
 
   return (
     <section id="pricing" className="py-24 bg-slate-50 dark:bg-slate-950">
@@ -61,67 +16,46 @@ export function PricingSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">Choose Your Website</h2>
-          <p className="text-xl text-muted-foreground">Simple pricing. No surprises.</p>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">Get Your Website Quote</h2>
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Tell me what you need and I'll create a custom quote.
+          </p>
+          <Button
+            size="lg"
+            onClick={() => setModalOpen(true)}
+            className="text-lg px-8 py-6"
+          >
+            Get Started
+          </Button>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {tiers.map((tier, index) => (
-            <motion.div
-              key={tier.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-            >
-              <Card
-                className={`p-8 h-full flex flex-col relative ${
-                  tier.popular ? "border-2 border-blue-600 shadow-lg" : ""
-                }`}
-              >
-                {tier.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold">
-                    Most Popular
-                  </div>
-                )}
-
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold mb-2 text-foreground">{tier.name}</h3>
-                  <div className="mb-2">
-                    <span className="text-5xl font-bold text-foreground">{tier.price}</span>
-                  </div>
-                  <p className="text-muted-foreground text-sm">{tier.description}</p>
-                </div>
-
-                <ul className="space-y-3 mb-8 flex-grow">
-                  {tier.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-foreground text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Button
-                  onClick={() => handleGetStarted(tier.name)}
-                  className={`w-full ${tier.popular ? "bg-blue-600 hover:bg-blue-700 text-white" : ""}`}
-                  variant={tier.popular ? "default" : "outline"}
-                >
-                  Get Started
-                </Button>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="max-w-3xl mx-auto"
+        >
+          <div className="grid md:grid-cols-3 gap-6 text-center">
+            <div className="p-6">
+              <div className="text-3xl font-bold text-foreground mb-2">Custom</div>
+              <p className="text-muted-foreground">Pricing</p>
+            </div>
+            <div className="p-6">
+              <div className="text-3xl font-bold text-foreground mb-2">48hrs</div>
+              <p className="text-muted-foreground">Fast delivery</p>
+            </div>
+            <div className="p-6">
+              <div className="text-3xl font-bold text-foreground mb-2">Free</div>
+              <p className="text-muted-foreground">Preview included</p>
+            </div>
+          </div>
+        </motion.div>
       </div>
 
-      <RequestFormDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        selectedTier={selectedTier}
-      />
+      <PricingRequestModal open={modalOpen} onOpenChange={setModalOpen} />
     </section>
   )
 }

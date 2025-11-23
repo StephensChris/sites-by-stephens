@@ -9,15 +9,20 @@ import { NextRequest, NextResponse } from "next/server"
  * - Local dev: *.localhost
  */
 function extractSubdomain(host: string | null): string | null {
-  if (!host) return null
+  if (!host) {
+    console.log(`[extractSubdomain] No host provided`)
+    return null
+  }
 
   // Remove port if present
   const hostWithoutPort = host.split(":")[0]
+  console.log(`[extractSubdomain] Processing host: ${host}, without port: ${hostWithoutPort}`)
 
   // Check if it's a subdomain of sitesbystephens.com
   if (hostWithoutPort.endsWith(".sitesbystephens.com")) {
     const subdomain = hostWithoutPort.replace(".sitesbystephens.com", "")
     if (subdomain && subdomain !== "www" && subdomain !== "sitesbystephens") {
+      console.log(`[extractSubdomain] Found sitesbystephens.com subdomain: ${subdomain}`)
       return subdomain
     }
   }
@@ -31,6 +36,7 @@ function extractSubdomain(host: string | null): string | null {
       if (subdomainPart.includes("-")) {
         const subdomain = subdomainPart.split("-")[0]
         if (subdomain && subdomain !== "www") {
+          console.log(`[extractSubdomain] Found vercel.app subdomain: ${subdomain}`)
           return subdomain
         }
       }
@@ -38,13 +44,20 @@ function extractSubdomain(host: string | null): string | null {
   }
 
   // For localhost development, check for subdomain.localhost
+  // Handles: rvssa.localhost:3000, sweetsbysami.localhost:3000, etc.
   if (hostWithoutPort.includes(".localhost")) {
     const parts = hostWithoutPort.split(".")
+    console.log(`[extractSubdomain] localhost detected, parts:`, parts)
+    // If it's subdomain.localhost format (e.g., rvssa.localhost)
     if (parts.length > 1 && parts[0] !== "localhost" && parts[0] !== "www") {
-      return parts[0]
+      const subdomain = parts[0]
+      console.log(`[extractSubdomain] Found localhost subdomain: ${subdomain}`)
+      return subdomain
     }
+    // If it's just localhost, return null (main site)
   }
 
+  console.log(`[extractSubdomain] No subdomain found for host: ${hostWithoutPort}`)
   return null
 }
 
@@ -61,6 +74,9 @@ export function middleware(request: NextRequest) {
   const host = request.headers.get("host")
   const subdomain = extractSubdomain(host)
   const pathname = request.nextUrl.pathname
+
+  // Debug logging
+  console.log(`[Middleware] Request: ${host}${pathname}, extracted subdomain: ${subdomain}`)
 
   // Don't rewrite static assets, API routes, or Next.js internals
   if (
@@ -89,6 +105,7 @@ export function middleware(request: NextRequest) {
 
   // For root domain (sitesbystephens.com), let it pass through to the main marketing site
   // This goes to app/page.tsx
+  console.log(`[Middleware] No subdomain detected, passing through to main site`)
   return NextResponse.next()
 }
 

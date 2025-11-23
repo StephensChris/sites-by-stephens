@@ -35,7 +35,7 @@
     "backgroundImage": "/clients/sweetsbysami/images/elegant-bakery-display-with-pastries-and-desserts.jpg",
     "buttons": [
       {
-        "text": "View Our Creations",
+        "text": "Our Creations",
         "variant": "default",
         "href": "#gallery"
       },
@@ -48,10 +48,7 @@
   },
   "about": {
     "title": "Baked with passion, served with love",
-    "paragraphs": [
-      "Every dessert at Sweets by Sami is crafted with the finest ingredients and attention to detail. From classic favorites to custom creations, we bring your sweetest dreams to life.",
-      "Whether it's a birthday celebration, wedding, or just a sweet treat for yourself, we're here to make every moment delicious."
-    ],
+    "paragraphs": [],
     "features": [
       {
         "icon": "🍰",

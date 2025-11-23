@@ -93,13 +93,13 @@ export async function generateMetadata({
   params: Promise<{ subdomain: string }>
 }): Promise<Metadata> {
   const resolvedParams = await params
-  let subdomain = resolvedParams?.subdomain
+  let subdomain: string | null = resolvedParams?.subdomain || null
   
   // Fallback: extract subdomain from headers
   if (!subdomain) {
     const headersList = await headers()
     const host = headersList.get("host")
-    subdomain = extractSubdomainFromHost(host) || null
+    subdomain = extractSubdomainFromHost(host)
   }
   
   if (!subdomain) {
@@ -118,8 +118,13 @@ export async function generateMetadata({
     }
   }
   
-  // Use cupcake favicon for Sweets by Sami, default for others
-  const favicon = subdomain === "sweetsbysami" ? "/cupcake.png" : "/icon.svg"
+  // Use custom favicons for specific subdomains
+  let favicon = "/icon.svg"
+  if (subdomain === "sweetsbysami") {
+    favicon = "/cupcake.png"
+  } else if (subdomain === "rvssa") {
+    favicon = "/clients/rvssa/images/target.png"
+  }
   
   return {
     title: clientData.metadata.title,
@@ -144,13 +149,13 @@ export default async function ClientLayout({
   params: Promise<{ subdomain: string }>
 }>) {
   const resolvedParams = await params
-  let subdomain = resolvedParams?.subdomain
+  let subdomain: string | null = resolvedParams?.subdomain || null
   
   // Fallback: extract subdomain from headers
   if (!subdomain) {
     const headersList = await headers()
     const host = headersList.get("host")
-    subdomain = extractSubdomainFromHost(host) || null
+    subdomain = extractSubdomainFromHost(host)
   }
   
   if (!subdomain) {

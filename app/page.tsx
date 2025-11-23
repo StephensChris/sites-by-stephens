@@ -5,6 +5,7 @@ import { WorkSection } from "@/components/work-section"
 import { PricingSection } from "@/components/pricing-section"
 import { Footer } from "@/components/footer"
 import { ContactQRProvider, useContactQR } from "@/components/contact-qr-popup"
+import { ContactForm } from "@/components/contact-form"
 import { motion } from "framer-motion"
 
 function HomeContent() {
@@ -60,6 +61,26 @@ function HomeContent() {
 
       <WorkSection />
       <PricingSection />
+      
+      {/* Contact Section */}
+      <section id="contact" className="py-24 bg-white dark:bg-slate-900">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl mx-auto"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center text-foreground">Get in Touch</h2>
+            <p className="text-xl text-muted-foreground mb-8 text-center">
+              Have a question or want to discuss your project? Send me a message and I'll get back to you soon.
+            </p>
+            <ContactForm />
+          </motion.div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   )

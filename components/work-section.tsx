@@ -1,7 +1,6 @@
 "use client"
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
-import { ExternalLink } from "lucide-react"
 
 const projects = [
   {
@@ -12,30 +11,36 @@ const projects = [
   },
   {
     id: 2,
+    title: "Rogue Valley Shooting Sports Association",
+    image: "/rvssa-preview.jpg",
+    url: "https://rvssa.sitesbystephens.com",
+  },
+  {
+    id: 3,
     title: "Plumbing Service",
     image: "/professional-plumber-website.jpg",
     url: "https://demo-plumber.sitesbystephens.com",
   },
   {
-    id: 3,
+    id: 4,
     title: "Barber Shop",
     image: "/modern-barber-shop-website.jpg",
     url: "https://demo-barber.sitesbystephens.com",
   },
   {
-    id: 4,
+    id: 5,
     title: "Fitness Gym",
     image: "/fitness-gym-website.png",
     url: "https://demo-gym.sitesbystephens.com",
   },
   {
-    id: 5,
+    id: 6,
     title: "Cleaning Service",
     image: "/professional-cleaning-service-website.jpg",
     url: "https://demo-cleaning.sitesbystephens.com",
   },
   {
-    id: 6,
+    id: 7,
     title: "Law Office",
     image: "/professional-law-office-website.jpg",
     url: "https://demo-law.sitesbystephens.com",
@@ -54,7 +59,6 @@ export function WorkSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground">Recent Projects</h2>
-          <p className="text-xl text-muted-foreground">Real websites for real businesses</p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -67,7 +71,7 @@ export function WorkSection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <a href={project.url} target="_blank" rel="noopener noreferrer" className="block">
-                <Card className="group overflow-hidden cursor-pointer hover:shadow-2xl transition-all duration-300 !p-0 !gap-0">
+                <Card className="group overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 !p-0 !gap-0">
                   <div className="relative overflow-hidden aspect-[3/2] w-full">
                     <img
                       src={project.image || "/placeholder.svg"}
@@ -77,10 +81,8 @@ export function WorkSection() {
                         e.currentTarget.src = "/placeholder.svg"
                       }}
                     />
-                    <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2">
-                      <p className="text-white text-2xl font-bold">{project.title}</p>
-                      <ExternalLink className="text-white w-6 h-6 mt-2" />
-                    </div>
+                    {/* Subtle overlay on hover - no text, just slight darkening */}
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                 </Card>
               </a>

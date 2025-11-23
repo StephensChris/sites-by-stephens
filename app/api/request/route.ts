@@ -98,9 +98,17 @@ export async function POST(request: NextRequest) {
 
     // Send email using Resend
     if (!process.env.RESEND_API_KEY) {
-      console.error("RESEND_API_KEY is not set in environment variables")
+      console.error("[Request API] RESEND_API_KEY is not set in environment variables")
+      console.error("[Request API] Available env vars:", Object.keys(process.env).filter(k => k.includes('RESEND')))
+      
+      // Provide helpful error message
+      const isDevelopment = process.env.NODE_ENV === 'development'
+      const errorMessage = isDevelopment
+        ? "Email service not configured. Please add RESEND_API_KEY to your .env.local file for local development."
+        : "Email service not configured. Please check your Vercel environment variables."
+      
       return NextResponse.json(
-        { error: "Email service not configured" },
+        { error: errorMessage },
         { status: 500 }
       )
     }
